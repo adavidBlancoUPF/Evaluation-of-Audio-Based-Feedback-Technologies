@@ -1,0 +1,96 @@
+%% Beginners with feedback
+
+load Results\Subject1fb\Subject1fb_results.mat
+load Results\Subject2fb\Subject2fb_results.mat
+load Results\Subject3fb\Subject3fb_results.mat
+load Results\Subject4fb\Subject4fb_results.mat
+load Results\Subject5fb\Subject5fb_results.mat
+load Results\Subject6fb\Subject6fb_results.mat
+load Results\Subject7fb\Subject7fb_results.mat
+load Results\Subject8fb\Subject8fb_results.mat
+load Results\Subject9fb\Subject9fb_results.mat
+
+
+
+
+
+%% Matrix with all beginners with feedback
+pitch_instab_feedback =  [pitch_instab_Subject4fb; pitch_instab_Subject1fb; ...
+ pitch_instab_Subject2fb; pitch_instab_Subject3fb;...
+    pitch_instab_Subject5fb; ...
+    pitch_instab_Subject6fb; pitch_instab_Subject7fb; ...
+    pitch_instab_Subject8fb;...
+    pitch_instab_Subject9fb];
+pitch_instab_mat_feedback = [mean(pitch_instab_feedback(:,(1:6)),2),...
+    mean(pitch_instab_feedback(:,(7:12)),2),...
+    mean(pitch_instab_feedback(:,(15:21)),2)];
+
+
+
+dyn_instab_feedback =  [dyn_instab_Subject4fb; dyn_instab_Subject1fb;...
+ dyn_instab_Subject2fb; dyn_instab_Subject3fb;...
+    dyn_instab_Subject5fb; ...
+    dyn_instab_Subject6fb; dyn_instab_Subject7fb; ...
+    dyn_instab_Subject8fb;...
+    dyn_instab_Subject9fb];
+dyn_instab_mat_feedback = [mean(dyn_instab_feedback(:,(1:6)),2),...
+    mean(dyn_instab_feedback(:,(7:12)),2),...
+    mean(dyn_instab_feedback(:,(15:21)),2)];
+
+
+
+aperiodicity_feedback =  [aperiodicity_Subject4fb; aperiodicity_Subject1fb; ...
+ aperiodicity_Subject2fb; aperiodicity_Subject3fb;...
+    aperiodicity_Subject5fb; ...
+    aperiodicity_Subject6fb; aperiodicity_Subject7fb; ...
+    aperiodicity_Subject8fb; ...
+    aperiodicity_Subject9fb];
+aperiodicity_mat_feedback = [mean(aperiodicity_feedback(:,(1:6)),2),...
+    mean(aperiodicity_feedback(:,(7:12)),2),...
+    mean(aperiodicity_feedback(:,(15:21)),2)];
+
+%% Normalize and compute good_sounds feedback descriptor
+
+%Normalize
+if ~bol_compare_experts_vs_beginners
+    [aperiodicity_feedback, dyn_instab_feedback, pitch_instab_feedback] = ...
+        normalize(aperiodicity_feedback, dyn_instab_feedback, pitch_instab_feedback);
+end
+z = cat(3,aperiodicity_feedback, dyn_instab_feedback, pitch_instab_feedback);
+gs_feedback = mean(z,3);
+
+%% Alternative Feedback whole math
+
+% pitch_instab_whole_mat 
+pitch_instab_early_data_feedback = pitch_instab_feedback(:,(1:7));
+pitch_instab_middle_data_feedback = pitch_instab_feedback(:,(8:14));
+pitch_instab_late_data_feedback = pitch_instab_feedback(:,(15:21));
+pitch_instab_whole_mat_feedback = [pitch_instab_early_data_feedback(:),...
+    pitch_instab_middle_data_feedback(:),...
+    pitch_instab_late_data_feedback(:)];
+
+
+%dyn_instab_whole_mat
+dyn_instab_early_data_feedback = dyn_instab_feedback(:,(1:7));
+dyn_instab_middle_data_feedback = dyn_instab_feedback(:,(8:14));
+dyn_instab_late_data_feedback = dyn_instab_feedback(:,(15:21));
+dyn_instab_whole_mat_feedback = [dyn_instab_early_data_feedback(:),...
+    dyn_instab_middle_data_feedback(:),...
+    dyn_instab_late_data_feedback(:)];
+
+
+%aperiodicity_whole_mat
+aperiodicity_early_data_feedback = aperiodicity_feedback(:,(1:7));
+aperiodicity_middle_data_feedback = aperiodicity_feedback(:,(8:14));
+aperiodicity_late_data_feedback = aperiodicity_feedback(:,(15:21));
+aperiodicity_whole_mat_feedback = [aperiodicity_early_data_feedback(:),...
+    aperiodicity_middle_data_feedback(:),...
+    aperiodicity_late_data_feedback(:)];
+
+
+% good sounds_whole_mat
+gs_early_data_f = gs_feedback(:,(1:7));
+gs_middle_data_f = gs_feedback(:,(8:14));
+gs_late_data_f = gs_feedback(:,(15:21));
+good_sounds_whole_mat_feedback = [gs_early_data_f(:),gs_middle_data_f(:),...
+    gs_late_data_f(:)];
